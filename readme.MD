@@ -37,6 +37,7 @@ If everything goes fine, you will see this output after running 'mongod' command
 
 That's the port in which mongoDB is listeing for queries....
 
+#
 
 ### Second step: Installing NodeJS
 
@@ -49,6 +50,8 @@ Go to the backend's root folder and run the following command:
 After npm finishes, just run:
 
 ``` npm start ```
+
+#
 
 ### Third step: Installing Angular
 
@@ -67,6 +70,8 @@ After that, go to the frontend folder and run:
 Once finished, just run:
 
 ``` ng serve ```
+
+#
 
 
 Database is listening in the port: 27017
