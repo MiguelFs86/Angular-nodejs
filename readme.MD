@@ -76,4 +76,4 @@ Once finished, just run:
 
 Database is listening in the port: 27017\
 Backend server is listening in the port: 3000\
-Frontend app is listening in the port: 4200\
+Frontend app is listening in the port: 4200
