@@ -7,11 +7,6 @@ const { checkToken, checkAdminRole } = require('../middlewares/authentication')
 const app = express()
 
 
-// app.get('/', function (req, res) {
-//   res.json('Hello World')
-// })
-
-
 app.get('/user', checkToken, (req, res) => {
 
     let from = req.query.from || 0;
