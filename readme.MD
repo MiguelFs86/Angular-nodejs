@@ -5,6 +5,9 @@
 To run this app, first of all you have to install MongoDB in your system
 
 ``` brew update ```
+
+and then:
+
 ``` brew install mongodb ```
 
 Once installed, create the data directory:
