@@ -2,13 +2,24 @@
 
 ### First step: Installing MongoDB
 
-To run this app, first of all you have to install MongoDB in your system
+To run this app, first of all you have to install MongoDB in your system:
+
+#### On Mac/OSX:
 
 ``` brew update ```
 
 and then:
 
 ``` brew install mongodb ```
+
+#### On Windows:
+
+Follow the MongoDB page instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mdb-edition
+
+#### On Linux:
+
+Follow the MongoDB page instructions: https://docs.mongodb.com/manual/administration/install-on-linux/
+
 
 Once installed, create the data directory:
 
