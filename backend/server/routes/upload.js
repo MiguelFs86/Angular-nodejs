@@ -2,151 +2,151 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
 
-const Usuario = require('../models/usuario');
-const Producto = require('../models/producto');
+const User = require('../models/user');
+const Product = require('../models/product');
 
 const fs = require('fs');
 const path = require('path');
- 
+
 // default options
 app.use(fileUpload());
- 
-app.put('/upload/:tipo/:id', function(req, res) {
-	let tipo = req.params.tipo;
-	let id = req.params.id;
 
-	if (!req.files) {
-		return res.status(400).json({
-			ok: false,
-			err: {
-				message: 'No files were uploaded.'
-			}
-		});
-	}
+app.put('/upload/:type/:id', function(req, res) {
+    let type = req.params.type;
+    let id = req.params.id;
 
-	// Validar tipo
-	let tiposValidos = ['productos', 'usuarios'];
-	if (tiposValidos.indexOf( tipo ) < 0){
-		return res.status(400).json({
-			ok: false,
-	  		err:{
-				meesage: 'Los tipos permitidos son ' + tiposValidos.join(', ')
-			}
-		})
-	}
- 
-	// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-	let archivo = req.files.archivo;
+    if (!req.files) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                message: 'No files were uploaded.'
+            }
+        });
+    }
 
-	// Extensiones permitidas
-	let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
-	let nombreCortado = archivo.name.split('.');
-	let extension = nombreCortado[nombreCortado.length - 1];
+    // Validar type
+    let validTypes = ['products', 'users'];
+    if (validTypes.indexOf(type) < 0) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                meesage: 'Allowed types: ' + validTypes.join(', ')
+            }
+        });
+    }
 
-	if (extensionesValidas.indexOf( extension ) < 0){
-		return res.status(400).json({
-			ok: false,
-	      	err:{
-	        	meesage: 'Las extensiones permitidas son ' + extensionesValidas.join(', ')
-	      	}
-	    })
-  	}
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let file = req.files.file;
 
-  	// Cambiar nombre al archivo
-  	let nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extension }`;
+    // Extensiones permitidas
+    let validExtensions = ['png', 'jpg', 'gif', 'jpeg'];
+    let shortedName = file.name.split('.');
+    let extension = shortedName[shortedName.length - 1];
 
-  	// Use the mv() method to place the file somewhere on your server
-	archivo.mv(`uploads/${ tipo }/${ nombreArchivo }`, (err)=> {
-		if (err){
-			return res.status(500).json({
-				ok: false,
-				err: err
-			});
-		}
+    if (validExtensions.indexOf(extension) < 0) {
+        return res.status(400).json({
+            ok: false,
+            err: {
+                meesage: 'Allowed extensions: ' + validExtensions.join(', ')
+            }
+        });
+    }
 
-		if ( tipo === 'usuarios'){
-			imagenUsuario(id , res, nombreArchivo);	
-		}
-		if (tipo === 'productos'){
-			imagenProducto(id , res, nombreArchivo);
-		}
-	});
+    // Cambiar nombre al archivo
+    let filename = `${ id }-${ new Date().getMilliseconds() }.${ extension }`;
+
+    // Use the mv() method to place the file somewhere on your server
+    file.mv(`uploads/${ type }/${ filename }`, (err) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err: err
+            });
+        }
+
+        if (type === 'users') {
+            userImage(id, res, filename);
+        }
+        if (type === 'products') {
+            productImage(id, res, filename);
+        }
+    });
 });
 
 
-function imagenUsuario(id, res, nombreArchivo) {
-	Usuario.findById( id, (err, usuarioDB)=>{
-		if (err){
-			borraArchivo(nombreArchivo, 'usuarios');
-			return res.status(500).json({
-				ok: false,
-				err: err
-			});
-		}
+function userImage(id, res, filename) {
+    Usuario.findById(id, (err, userDB) => {
+        if (err) {
+            deleteFile(filename, 'users');
+            return res.status(500).json({
+                ok: false,
+                err: err
+            });
+        }
 
-		if (!usuarioDB){
-			borraArchivo(nombreArchivo, 'usuarios');
-			return res.status(400).json({
-				ok: false,
-				err: {
-					message: 'El usuario no existe'
-				}
-			});
-		}
+        if (!userDB) {
+            deleteFile(filename, 'users');
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'User does not exists'
+                }
+            });
+        }
 
-		borraArchivo(usuarioDB.img, 'usuarios')
+        deleteFile(userDB.img, 'users')
 
-		usuarioDB.img = nombreArchivo;
-		usuarioDB.save( (err,usuarioGuardado) =>{
-			res.json({
-				ok: true,
-				usuario: usuarioGuardado,
-				img: nombreArchivo
-			})
-		})
-	})
+        userDB.img = filename;
+        userDB.save((err, savedUser) => {
+            res.json({
+                ok: true,
+                usuario: savedUser,
+                img: filename
+            });
+        });
+    });
 }
 
 
-function imagenProducto(id, res, nombreArchivo) {
-	Producto.findById( id, (err, productoDB)=>{
-		if (err){
-			borraArchivo(nombreArchivo, 'productos');
-			return res.status(500).json({
-				ok: false,
-				err: err
-			});
-		}
+function productImage(id, res, filename) {
+    Producto.findById(id, (err, productDB) => {
+        if (err) {
+            deleteFile(filename, 'products');
+            return res.status(500).json({
+                ok: false,
+                err: err
+            });
+        }
 
-		if (!productoDB){
-			borraArchivo(nombreArchivo, 'productos');
-			return res.status(400).json({
-				ok: false,
-				err: {
-					message: 'El producto no existe'
-				}
-			});
-		}
+        if (!productDB) {
+            deleteFile(filename, 'products');
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Product does not exists'
+                }
+            });
+        }
 
-		borraArchivo(productoDB.img, 'productos')
+        deleteFile(productDB.img, 'products')
 
-		productoDB.img = nombreArchivo;
-		productoDB.save( (err,productoGuardado) =>{
-			res.json({
-				ok: true,
-				producto: productoGuardado,
-				img: nombreArchivo
-			})
-		})
-	})
+        productDB.img = filename;
+        productDB.save((err, savedProduct) => {
+            res.json({
+                ok: true,
+                producto: savedProduct,
+                img: filename
+            });
+        });
+    });
 }
 
 
-function borraArchivo(nombreImagen, tipo){
-	let pathImagen = path.resolve( __dirname, `../../uploads/${ tipo }/${ nombreImagen }` );
-	if ( fs.existsSync(pathImagen) ){
-		fs.unlinkSync(pathImagen);
-	}
+function deleteFile(imageName, type) {
+    let imagePath = path.resolve(__dirname, `../../uploads/${ type }/${ imageName }`);
+    if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+    }
 }
 
 

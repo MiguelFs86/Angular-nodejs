@@ -23,9 +23,9 @@ app.use(express.static(path.resolve(__dirname, '../public/')));
 
 mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) throw err;
-    console.log('Base de datos ONLINE');
+    console.log('Database....ONLINE');
 })
 
 app.listen(process.env.PORT, () => {
-    console.log(`Escuchando puerto ${ process.env.PORT }`);
+    console.log(`Listening on port ${ process.env.PORT }`);
 })

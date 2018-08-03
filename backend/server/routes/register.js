@@ -2,12 +2,11 @@ const express = require('express');
 
 const bcrypt = require('bcrypt');
 
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const app = express();
 
 
-app.post('/login', (req, res) => {
+app.post('/register', (req, res) => {
 
     let body = req.body;
 
@@ -19,33 +18,33 @@ app.post('/login', (req, res) => {
             })
         }
 
-        if (!userDB) {
+        if (userDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'User/password wrong'
+                    message: 'There already exists an user with this email'
                 }
             });
         }
+    });
 
-        if (!bcrypt.compareSync(body.password, userDB.password)) {
+    let user = new User({
+        name: body.name,
+        email: body.email,
+        password: bcrypt.hashSync(body.password, 10)
+    });
 
+    user.save((err, userDB) => {
+        if (err) {
             return res.status(400).json({
                 ok: false,
-                err: {
-                    message: 'User/password wrong 2'
-                }
-            });
+                err: err
+            })
         }
-
-        let token = jwt.sign({
-            user: userDB
-        }, process.env.SEED, { expiresIn: process.env.TOKEN_EXPIRATION })
 
         res.json({
             ok: true,
-            user: userDB,
-            token: token
+            user: userDB
         });
     });
 });

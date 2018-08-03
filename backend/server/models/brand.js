@@ -3,17 +3,17 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 let Schema = mongoose.Schema;
 
-let categoriaSchema = new Schema({
-    descripcion: {
+let brandSchema = new Schema({
+    description: {
         type: String,
         unique: true,
-        required: [true, 'La descripcion es necesario']
+        required: [true, 'Description is required']
     },
-    usuario: {
+    user: {
         type: Schema.Types.ObjectId,
-        ref: 'Usuario'
+        ref: 'User'
     }
 })
 
 
-module.exports = mongoose.model('Categoria', categoriaSchema)
+module.exports = mongoose.model('Brand', brandSchema)
