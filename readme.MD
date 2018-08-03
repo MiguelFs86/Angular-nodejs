@@ -12,14 +12,6 @@ and then:
 
 ``` brew install mongodb ```
 
-#### On Windows:
-
-Follow the MongoDB page instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mdb-edition
-
-#### On Linux:
-
-Follow the MongoDB page instructions: https://docs.mongodb.com/manual/administration/install-on-linux/
-
 
 Once installed, create the data directory:
 
@@ -36,6 +28,15 @@ If everything goes fine, you will see this output after running 'mongod' command
 ``` [initandlisten] waiting for connections on port 27017 ```
 
 That's the port in which mongoDB is listeing for queries....
+
+#### On Windows:
+
+Follow the MongoDB page instructions: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#install-mdb-edition
+
+#### On Linux:
+
+Follow the MongoDB page instructions: https://docs.mongodb.com/manual/administration/install-on-linux/
+
 
 #
 
