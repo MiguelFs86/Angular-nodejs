@@ -19,7 +19,7 @@ Follow the MongoDB page instructions: https://docs.mongodb.com/manual/tutorial/i
 #### On Linux:
 
 Follow the MongoDB page instructions: https://docs.mongodb.com/manual/administration/install-on-linux/
-
+# . 
 
 Once installed, create the data directory:
 
