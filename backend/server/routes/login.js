@@ -9,9 +9,10 @@ const app = express();
 
 app.post('/login', (req, res) => {
 
-    let body = req.body;
+    let email = req.body.credentials.email;
+    let password = req.body.credentials.password;
 
-    User.findOne({ email: body.email }, (err, userDB) => {
+    User.findOne({ email: email }, (err, userDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -28,7 +29,7 @@ app.post('/login', (req, res) => {
             });
         }
 
-        if (!bcrypt.compareSync(body.password, userDB.password)) {
+        if (!bcrypt.compareSync(password, userDB.password) && (userDB.password !== password)) {
 
             return res.status(400).json({
                 ok: false,
