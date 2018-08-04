@@ -15,7 +15,7 @@ app.post('/register', (req, res) => {
             return res.status(500).json({
                 ok: false,
                 err: err
-            })
+            });
         }
 
         if (userDB) {
@@ -25,28 +25,29 @@ app.post('/register', (req, res) => {
                     message: 'There already exists an user with this email'
                 }
             });
+        } else {
+            let user = new User({
+                name: body.name,
+                email: body.email,
+                password: bcrypt.hashSync(body.password, 10)
+            });
+
+            user.save((err, userDB) => {
+                if (err) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: err
+                    });
+                }
+
+                res.json({
+                    ok: true,
+                    user: userDB
+                });
+            });
         }
     });
 
-    let user = new User({
-        name: body.name,
-        email: body.email,
-        password: bcrypt.hashSync(body.password, 10)
-    });
-
-    user.save((err, userDB) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err: err
-            })
-        }
-
-        res.json({
-            ok: true,
-            user: userDB
-        });
-    });
 });
 
 module.exports = app;
