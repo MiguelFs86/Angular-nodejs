@@ -1,12 +1,12 @@
-.example-icon {
+.login-icon {
     padding: 0 14px;
 }
 
-.example-spacer {
+.login-spacer {
     flex: 1 1 auto;
 }
 
-.example-card {
+.login-card {
     width: 400px;
     margin: 10% auto;
 }

@@ -20,10 +20,12 @@ export class LoginComponent {
         showSpinner: boolean;
         
         login() : void {
+            this.showSpinner = true;
             this.credentials = { 'email': this.username, 'password': this.password};
             this.auth.login(this.credentials).subscribe(
                 res => {
                     if (res){
+                        this.showSpinner = false;
                         this.router.navigate(['/home']);
                     } 
                 },

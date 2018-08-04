@@ -23,12 +23,13 @@ import {
     MatToolbarModule, 
     MatSnackBarModule,
     MatProgressSpinnerModule, 
-    MatFormFieldModule, MatCardModule} from '@angular/material';
+    MatFormFieldModule, MatCardModule, MatDialogModule} from '@angular/material';
 
     import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
 import { APP_ROUTING } from './app.routes';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { APP_ROUTING } from './app.routes';
     NavbarComponent,
     ProductsComponent,
     RegisterComponent,
-    UsersComponent
+    UsersComponent,
+    DialogComponent
   ],
   imports: [
     RouterModule,
@@ -49,6 +51,7 @@ import { APP_ROUTING } from './app.routes';
     FormsModule,
     MatInputModule,
     MatSnackBarModule,
+    MatDialogModule,
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,
@@ -56,6 +59,7 @@ import { APP_ROUTING } from './app.routes';
     MatFormFieldModule,
     MatProgressSpinnerModule
   ],
+  entryComponents: [DialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
