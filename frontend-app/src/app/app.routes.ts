@@ -1,12 +1,12 @@
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-
-import { AuthGuardService } from './services/auth-guard.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const APP_ROUTES: Routes = [
 	{ path: 'home', component: HomeComponent, canActivate: [ AuthGuardService ] },
@@ -14,6 +14,7 @@ const APP_ROUTES: Routes = [
     { path: 'users', component: UsersComponent, canActivate: [ AuthGuardService ] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent, canActivate: [ AuthGuardService ] },
+    { path: 'profile', component: ProfileComponent, canActivate: [ AuthGuardService ] },
 	{ path: '**', pathMatch: 'full', redirectTo: 'login'}
 ];
 

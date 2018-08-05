@@ -18,6 +18,10 @@ export class NavbarComponent implements OnInit {
     registerUser(){
         this.router.navigate(['/register']);
     }
+
+    userProfile(){
+        this.router.navigate(['/profile']);
+    }
     
     logout(){
         this.auth.logout();

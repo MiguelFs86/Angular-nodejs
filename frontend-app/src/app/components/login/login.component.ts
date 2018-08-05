@@ -14,7 +14,7 @@ export class LoginComponent {
         private router : Router,
         public snackBar: MatSnackBar) { }
         
-        username : string = 'user1@gmail.com';
+        username : string = '';
         password : string = '';
         credentials: Object;
         showSpinner: boolean;
@@ -24,6 +24,7 @@ export class LoginComponent {
             this.credentials = { 'email': this.username, 'password': this.password};
             this.auth.login(this.credentials).subscribe(
                 res => {
+                    console.log(res);
                     if (res){
                         this.showSpinner = false;
                         this.router.navigate(['/home']);
@@ -33,6 +34,7 @@ export class LoginComponent {
                     this.snackBar.open('Incorrect login','dismiss',{
                         duration: 3000
                     });
+                    this.showSpinner = false;
                 })
                 
                 
