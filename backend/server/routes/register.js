@@ -14,6 +14,7 @@ app.post('/register', (req, res) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
+                message: 'Failed on creating user',
                 err: err
             });
         }
@@ -36,12 +37,14 @@ app.post('/register', (req, res) => {
                 if (err) {
                     return res.status(400).json({
                         ok: false,
+                        message: 'Failed on creating user',
                         err: err
                     });
                 }
 
                 res.json({
                     ok: true,
+                    message: 'User successfully created',
                     user: userDB
                 });
             });

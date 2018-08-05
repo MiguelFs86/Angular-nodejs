@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken')
 // Check for token
 // =================
 let checkToken = (req, res, next) => {
-    let token = req.get('token');
+    // let token = req.get('token');
+    let token = req.headers.authorization.split(" ")[1];
 
     jwt.verify(token, process.env.SEED, (err, decoded) => {
-
         if (err) {
             return res.status(401).json({
                 ok: false,

@@ -1,13 +1,13 @@
-const express = require('express')
+const express = require('express');
 
-const bcrypt = require('bcrypt')
-const _ = require('underscore')
-const User = require('../models/user')
-const { checkToken, checkAdminRole } = require('../middlewares/authentication')
-const app = express()
+const bcrypt = require('bcrypt');
+const _ = require('underscore');
+const User = require('../models/user');
+const { checkToken, checkAdminRole } = require('../middlewares/authentication');
+const app = express();
 
 
-app.get('/user', checkToken, (req, res) => {
+app.get('/users', checkToken, (req, res) => {
 
     let from = req.query.from || 0;
     from = Number(from);
@@ -15,7 +15,7 @@ app.get('/user', checkToken, (req, res) => {
     let limit = req.query.limit || 0;
     limit = Number(limit);
 
-    User.find({ status: true }, 'name email role status img')
+    User.find({ status: true }, '_id name email role status img')
         .skip(from)
         .limit(limit)
         .exec((err, users) => {
@@ -23,7 +23,7 @@ app.get('/user', checkToken, (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     err: err
-                })
+                });
             }
 
             User.count({ status: true }, (err, count) => {
@@ -33,8 +33,38 @@ app.get('/user', checkToken, (req, res) => {
                     count: count
                 });
             });
-        })
-})
+        });
+});
+
+
+app.get('/user/:id', checkToken, (req, res) => {
+
+    let id = req.params.id;
+
+    User.findById(id, (err, userDB) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err: err
+            });
+        }
+
+        if (!userDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'User not found'
+                }
+            });
+        } else {
+            res.json({
+                ok: true,
+                user: userDB,
+            });
+        }
+    });
+});
 
 
 app.post('/user', [checkToken, checkAdminRole], function(req, res) {
@@ -52,7 +82,7 @@ app.post('/user', [checkToken, checkAdminRole], function(req, res) {
             return res.status(400).json({
                 ok: false,
                 err: err
-            })
+            });
         }
 
         res.json({
@@ -65,22 +95,23 @@ app.post('/user', [checkToken, checkAdminRole], function(req, res) {
 
 app.put('/user/:id', [checkToken, checkAdminRole], function(req, res) {
     let id = req.params.id;
-    let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
+    let body = _.pick(req.body.user, ['name', 'img', 'role', 'status']);
 
-    User.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, userDB) => {
+    User.findByIdAndUpdate(id, body, { runValidators: true }, (err, userDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
+                message: 'Unable to update user',
                 err: err
-            })
+            });
         }
         res.json({
             ok: true,
+            message: 'User successfully updated',
             user: userDB
-        })
-    })
-
-})
+        });
+    });
+});
 
 
 app.delete('/user/:id', [checkToken, checkAdminRole], function(req, res) {
@@ -109,21 +140,21 @@ app.delete('/user/:id', [checkToken, checkAdminRole], function(req, res) {
 
     let changeStatus = {
         status: false
-    }
+    };
 
     User.findByIdAndUpdate(id, changeStatus, { new: true }, (err, userDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
                 err: err
-            })
+            });
         }
         res.json({
             ok: true,
             user: userDB
-        })
-    })
-})
+        });
+    });
+});
 
 
 module.exports = app;
