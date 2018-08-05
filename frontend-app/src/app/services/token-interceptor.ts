@@ -10,7 +10,6 @@ export class TokenInterceptor implements HttpInterceptor {
     }
     
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('interceptor');
         let headers: any;
         if (localStorage.getItem('token')) {
             // Attach headers to request
@@ -26,8 +25,6 @@ export class TokenInterceptor implements HttpInterceptor {
             });
         }
         const cloneReq = request.clone({headers});
-
-        console.log(cloneReq);
 
         return next.handle(cloneReq);
     }

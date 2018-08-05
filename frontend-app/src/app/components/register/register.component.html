@@ -1,36 +1,36 @@
 <mat-card class="register-card text-center">
-    <form [formGroup]="registerForm" class="register-form" (ngSubmit)="register()">
-        <mat-card-header>
-            <mat-card-title>Register</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+    <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="register-form">
             <table class="register-full-width" cellspacing="0">
                 <tr>
                     <td>
                         <mat-form-field class="register-full-width">
-                            <input formControlName="email" matInput placeholder="Email" [(ngModel)]="user.email" name="email" required>
+                            <input matInput placeholder="Email" [(ngModel)]="user.email" name="email" required>
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field class="register-full-width">
-                            <input formControlName="password" matInput placeholder="Password" [(ngModel)]="user.password" type="password" name="password" required>
+                            <input matInput placeholder="Password" [(ngModel)]="user.password" type="password" name="password" required>
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field class="register-full-width">
-                            <input formControlName="name" matInput placeholder="Name" [(ngModel)]="user.name" name="name" required>
+                            <input matInput placeholder="Name" [(ngModel)]="user.name" name="name" required>
                         </mat-form-field>
                     </td>
                 </tr>
             </table>
-            <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button type="submit" color="primary">Register user!</button>
-        </mat-card-actions>
-    </form>
+        </form>
+        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button (click)="register()" color="primary">Register user!</button>
+    </mat-card-actions>
 </mat-card>

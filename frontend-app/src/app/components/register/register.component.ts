@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
-import { FormGroup } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-register',
@@ -18,16 +16,9 @@ export class RegisterComponent implements OnInit {
         name: ''
     }
 
-    registerForm: FormGroup;
-    
     showSpinner: boolean = false;
     
     constructor( private userService: UserService, public dialog: MatDialog) {
-        this.registerForm = new FormGroup({
-            email: new FormControl(),
-            password: new FormControl(),
-            name: new FormControl()
-         });
     }
     
     ngOnInit() {
@@ -39,12 +30,11 @@ export class RegisterComponent implements OnInit {
             data: {action: 'Register ', name: this.user.fullName, message: message, result: result }
         });
         this.showSpinner = false;
-        this.registerForm.reset();
+        this.user = {};
     }
     
     register(){
         this.showSpinner = true;
-        console.log(this.user);
         this.userService.registerUser(this.user).subscribe( (res:any) => {
             this.showDialog(true, res.message);
         },

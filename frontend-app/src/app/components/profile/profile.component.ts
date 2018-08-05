@@ -10,14 +10,19 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class ProfileComponent implements OnInit {
     
-    user: Object;
+    user = {
+        name: '',
+        password: '',
+        email: '',
+        role: ''
+    };
+
     showSpinner: boolean = false;
     
     constructor( private userService: UserService, public dialog: MatDialog) {
         this.userService.getUserById().subscribe( (response:any) =>{
             if (response.ok){
                 this.user = response.user;
-                console.log(this.user);
             }
         })
     }
