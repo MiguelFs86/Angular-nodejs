@@ -15,8 +15,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-RUN mkdir /user/src/app/server/config/ssl_certs
-
 ENV NODE_ENV prod
 ENV MONGO_URI mongodb://mongo:27017/angular-node-test
 
