@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
     showSpinner: boolean = false;
     
-    constructor( private userService: UserService, public dialog: MatDialog) {
+    constructor( private userService: UserService, public dialog: MatDialog, private router: Router) {
     }
     
     ngOnInit() {
@@ -31,6 +32,7 @@ export class RegisterComponent implements OnInit {
         });
         this.showSpinner = false;
         this.user = {};
+        this.router.navigate(['/login']);
     }
     
     register(){
