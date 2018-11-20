@@ -9,8 +9,8 @@ var https = require('https');
 var fs = require('fs');
 
 const options = {
-    key: fs.readFileSync("/server/config/ssl_certs/server.key"),
-    cert: fs.readFileSync("/server/config/ssl_certs/server.crt")
+    key: fs.readFileSync("./server/config/ssl_certs/server.key"),
+    cert: fs.readFileSync("./server/config/ssl_certs/server.crt")
 };
 
 var app = express();
@@ -69,4 +69,5 @@ app.listen(process.env.PORT);
 https.createServer(options, app).listen(process.env.SSL_PORT, () => {
     console.log(`Environment: ${process.env.NODE_ENV}`);
     console.log(`Listening on port ${ process.env.PORT }`);
+    console.log(`Listening on port ${ process.env.SSL_PORT }`);
 });
