@@ -43,7 +43,9 @@ export class ProfileComponent implements OnInit {
             (response:any) =>{
                 if (response.ok){
                     this.showDialog(true, response.message)
-                } 
+                } else {
+                    this.showDialog(false, response.err.message)    
+                }
             },
             error =>{
                 this.showDialog(false, error.message)
