@@ -20,8 +20,6 @@ services:
       - mongo
     depends_on:
       - mongo
-    volumes:
-      - $PWD/ssl_certs:/user/src/app/server/config/ssl_certs
     networks:
       - local_network
 
