@@ -38,6 +38,6 @@ services:
       - local_network
     volumes:
       - $PWD/frontend-app/ssl_certs:/etc/nginx/ssl
-      - $PWD/frontned-app/nginx_conf:/etc/nginx/conf.d
+      - $PWD/nginx_conf:/etc/nginx/conf.d
 networks:
   local_network:
