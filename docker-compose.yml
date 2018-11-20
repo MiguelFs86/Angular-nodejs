@@ -18,6 +18,8 @@ services:
       - "8080:8080"
     links:
       - mongo
+    volumes:
+      - $PWD/ssl_certs/server:/user/src/app/server/config/ssl_certs
     depends_on:
       - mongo
     networks:
