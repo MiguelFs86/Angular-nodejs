@@ -27,13 +27,7 @@ FROM nginx
 # COPY --from=builder /app/dist/fe /usr/local/apache2/htdocs/
 COPY --from=builder /app/dist/fe /usr/share/nginx/html
 
-COPY default.conf /etc/nginx/conf.d/default.conf
-
 RUN mkdir /etc/nginx/ssl
-
-COPY ssl_certs/nginx.key /etc/nginx/ssl/nginx.key
-
-COPY ssl_certs/nginx.crt /etc/nginx/ssl/nginx.crt
 
 EXPOSE 80 443
 
