@@ -6,11 +6,20 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const app = express();
 
-
 app.post('/login', (req, res) => {
 
-    let email = req.body.credentials.email;
-    let password = req.body.credentials.password;
+    let email;
+    let password;
+
+    if (req.body.credentials) {
+        email = req.body.credentials.email;
+        password = req.body.credentials.password;
+    } else {
+        return res.status(500).json({
+            ok: false,
+            err: 'No user/password were provided'
+        });
+    }
 
     User.findOne({ email: email }, (err, userDB) => {
         if (err) {

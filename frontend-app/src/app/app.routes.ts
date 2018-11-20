@@ -13,7 +13,7 @@ const APP_ROUTES: Routes = [
     { path: 'products', component: ProductsComponent, canActivate: [ AuthGuardService ] },
     { path: 'users', component: UsersComponent, canActivate: [ AuthGuardService ] },
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent, canActivate: [ AuthGuardService ] },
+    { path: 'register', component: RegisterComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [ AuthGuardService ] },
 	{ path: '**', pathMatch: 'full', redirectTo: 'login'}
 ];

@@ -30,6 +30,7 @@ let urlDB;
 
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/angular-node-test';
+    // urlDB = 'mongodb://mongo:27017/angular-node-test';
 } else {
     urlDB = process.env.MONGO_URI;
 }

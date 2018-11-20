@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - $PWD/backend/data/:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - my_net
+
+  backend:
+    build: 
+      context: ./backend
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - my_net
+
+  frontend:
+    build: 
+      context: ./frontend-app
+    ports:
+      - "80:80"
+    links:
+      - backend
+    depends_on:
+      - mongo
+      - backend
+    networks:
+      - my_net
+networks:
+  my_net:

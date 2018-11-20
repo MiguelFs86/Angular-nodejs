@@ -9,4 +9,6 @@ app.use(require('./upload'));
 app.use(require('./images'));
 app.use(require('./register'));
 
+app.use(require('./misc'));
+
 module.exports = app;

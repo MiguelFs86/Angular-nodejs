@@ -36,9 +36,11 @@ export class RegisterComponent implements OnInit {
     register(){
         this.showSpinner = true;
         this.userService.registerUser(this.user).subscribe( (res:any) => {
+            console.log(res);
             this.showDialog(true, res.message);
         },
         err => {
+            console.log(err);
             let message = err.error.err.message;
             this.showDialog(false, message);
         })

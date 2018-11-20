@@ -1,21 +1,29 @@
-require('./config/config')
-const express = require('express')
-const mongoose = require('mongoose');
-const path = require('path');
+'use strict';
 
+require('./config/config');
+var express = require('express');
+var mongoose = require('mongoose');
+var path = require('path');
 
-const app = express()
-const bodyParser = require('body-parser')
-
+var app = express();
+var bodyParser = require('body-parser');
 
 // Add headers
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader("Access-Control-Allow-Headers", '*');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+app.use((req, res, next) => {
+    const origin = req.get('origin');
 
-    next();
+    // TODO Add origin validation
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
+
+    // intercept OPTIONS method
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(204);
+    } else {
+        next();
+    }
 });
 
 
@@ -32,11 +40,23 @@ app.use(require('./routes/index'));
 app.use(express.static(path.resolve(__dirname, '../public/')));
 
 
-mongoose.connect(process.env.URLDB, (err, res) => {
-    if (err) throw err;
-    console.log('Database....ONLINE');
-})
+if (process.env.NODE_ENV === 'prod') {
+    setTimeout(function() {
+            mongoose.connect(process.env.URLDB, (err, res) => {
+                if (err) throw err;
+                console.log('Database....ONLINE');
+            });
+        },
+        10000);
+} else {
+    mongoose.connect(process.env.URLDB, (err, res) => {
+        if (err) throw err;
+        console.log('Database....ONLINE');
+    });
+}
+
 
 app.listen(process.env.PORT, () => {
+    console.log(`Environment: ${process.env.NODE_ENV}`);
     console.log(`Listening on port ${ process.env.PORT }`);
 })

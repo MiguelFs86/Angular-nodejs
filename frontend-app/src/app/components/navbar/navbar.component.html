@@ -7,7 +7,7 @@
 
         <button mat-button>About</button>
         <button mat-button>Contact</button>
-        <button *ngIf="auth.isAuthenticated()" (click)="registerUser()" mat-button>Register user</button>
+        <button (click)="registerUser()" mat-button>Register user</button>
         <button *ngIf="auth.isAuthenticated()" (click)="userProfile()" mat-button>User profile</button>
         <button *ngIf="auth.isAuthenticated()" (click)="logout()" mat-button>Logout</button>
     </mat-toolbar-row>

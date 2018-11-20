@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 'Accept': 'application/json'
             });
         } else {
-            headers = new HttpHeaders({
+            headers = new HttpHeaders({                
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             });
