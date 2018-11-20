@@ -1,13 +1,6 @@
 version: '3'
 
 services:
-  nginx-proxy:  
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-
   mongo:
     image: mongo
     volumes:
@@ -15,7 +8,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - my_net
+      - local_network
 
   backend:
     build: 
@@ -26,24 +19,20 @@ services:
       - mongo
     depends_on:
       - mongo
-    environment:
-      - "VIRTUAL_HOST=backend.51.38.184.194"
     networks:
-      - my_net
+      - local_network
 
   frontend:
     build: 
       context: ./frontend-app
     links:
       - backend
-    expose:
-      - 80
-    environment:
-      - "VIRTUAL_HOST=web.51.38.184.194"
+    ports:
+      - "80:80"
     depends_on:
       - mongo
       - backend
     networks:
-      - my_net
+      - local_network
 networks:
-  my_net:
+  local_network:

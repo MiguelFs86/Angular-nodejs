@@ -1,47 +1,22 @@
-#Traefik Global Configuration
-debug = false
-checkNewVersion = true
-logLevel = "ERROR"
+defaultEntryPoints = ["http", "https"]
 
-#Define the EntryPoint for HTTP and HTTPS
-defaultEntryPoints = ["https","http"]
-
-#Enable Traefik Dashboard on port 8080
-#with basic authentication method
-#mohammad and password
 [web]
 address = ":8080"
-[web.auth.basic]
-users = ["root:$apr1$KbL6pbq4$FgWLhEQwO1HQKKVsHscjk1"]
+    [web.auth.basic]
+    users = ["admin:$apr1$9wVQrngs$ZySiKy7Ola2NcNx0OGD121"]
 
-#Define the HTTP port 80 and
-#HTTPS port 443 EntryPoint
-#Enable automatically redirect HTTP to HTTPS
 [entryPoints]
-[entryPoints.http]
-address = ":80"
-[entryPoints.http.redirect]
-entryPoint = "https"
-[entryPoints.https]
-address = ":443"
-[entryPoints.https.tls]
-
-#Enable retry sending a request if the network error
-[retry]
-
-#Define Docker Backend Configuration
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "traefik.hakase-labs.io"
-watch = true
-exposedbydefault = false
-
-#Letsencrypt Registration
-#Define the Letsencrypt ACME HTTP challenge
+    [entryPoints.http]
+    address = ":80"
+        [entryPoints.http.redirect]
+        entryPoint = "https"
+    [entryPoints.https]
+    address = ":443"
+        [entryPoints.https.tls]
+    
 [acme]
-email = "hakaselabs@gmail.com"
+email = "test@serantes.pro"
 storage = "acme.json"
 entryPoint = "https"
-OnHostRule = true
-  [acme.httpChallenge]
-  entryPoint = "http"
+onHostRule = true
+onDemand = false
