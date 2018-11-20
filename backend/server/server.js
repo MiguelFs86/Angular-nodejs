@@ -5,6 +5,14 @@ var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
 
+var https = require('https');
+var fs = require('fs');
+
+const options = {
+    key: fs.readFileSync("/server/config/ssl_certs/server.key"),
+    cert: fs.readFileSync("/server/config/ssl_certs/server.crt")
+};
+
 var app = express();
 var bodyParser = require('body-parser');
 
@@ -56,7 +64,9 @@ if (process.env.NODE_ENV === 'prod') {
 }
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT);
+
+https.createServer(options, app).listen(process.env.SSL_PORT, () => {
     console.log(`Environment: ${process.env.NODE_ENV}`);
     console.log(`Listening on port ${ process.env.PORT }`);
-})
+});
