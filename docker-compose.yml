@@ -3,7 +3,7 @@ version: '3'
 services:
   traefik:
     image: traefik:latest
-    command: --docker --docker.domain=hakase-labs.io
+    command: --docker --docker.domain=51.38.184.194
     ports:
       - 80:80
       - 443:443
@@ -14,7 +14,7 @@ services:
       - ./traefik/traefik.toml:/traefik.toml
       - ./traefik/acme.json:/acme.json
     labels:
-      - "traefik.frontend.rule=Host:traefik.hakase-labs.io"
+      - "traefik.frontend.rule=Host:traefik.51.38.184.194"
       - "traefik.port=8080"
     container_name: traefik
     restart: always
@@ -53,4 +53,3 @@ services:
       - my_net
 networks:
   my_net:
-    external: true
