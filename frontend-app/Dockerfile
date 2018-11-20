@@ -11,16 +11,18 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
+RUN npm install -g @angular/cli
+
 # Copy project files into the docker image
 COPY . .
 
-RUN npm run build
+RUN ng build --prod
 
 # STEP 2 build a small nginx image with static website
 
 FROM nginx
 
-## From 'builder' copy website to default apache public folder
+# From 'builder' copy website to default apache public folder
 
 # COPY --from=builder /app/dist/fe /usr/local/apache2/htdocs/
 COPY --from=builder /app/dist/fe /usr/share/nginx/html
