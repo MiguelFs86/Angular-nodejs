@@ -29,7 +29,7 @@ COPY --from=builder /app/dist/fe /usr/share/nginx/html
 
 RUN mkdir /etc/nginx/ssl
 
-EXPOSE 80 443
+EXPOSE 80 443 9000
 
 # CMD apachectl -DFOREGROUND
 CMD ["nginx", "-g", "daemon off;"]

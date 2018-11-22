@@ -20,6 +20,6 @@ RUN mkdir server/config/ssl_certs
 ENV NODE_ENV prod
 ENV MONGO_URI mongodb://mongo:27017/angular-node-test
 
-EXPOSE 3000 8080
+EXPOSE 3000 8081
 
 CMD [ "npm", "start" ]
