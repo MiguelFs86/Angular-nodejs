@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  traefik:
+    image: traefik:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/traefik/traefik.toml:/traefik.toml
+    container_name: traefik
   mongo:
     image: mongo
     volumes:
@@ -13,33 +25,37 @@ services:
   backend:
     build: 
       context: ./backend
-    ports:
-      - "3000:3000"
-      - "8080:8080"
     links:
       - mongo
+    labels:
+      - "traefik.frontend.rule=Host:backend.serantes.pro"
+      - "traefik.basic.port=3000"
     volumes:
       - $PWD/ssl_certs/server:/user/src/app/server/config/ssl_certs
     depends_on:
       - mongo
     networks:
       - local_network
+      - web
 
   frontend:
     build: 
       context: ./frontend-app
     links:
       - backend
-    ports:
-      - "80:80"
-      - "443:443"
+    labels: 
+      - "traefik.basic.frontend.rule=Host:web.serantes.pro"
+      - "traefik.basic.port=80"
     depends_on:
       - mongo
       - backend
     networks:
       - local_network
+      - web
     volumes:
       - $PWD/ssl_certs/frontend-app:/etc/nginx/ssl
       - $PWD/nginx_conf:/etc/nginx/conf.d
 networks:
+  web:
+    external: true
   local_network:
