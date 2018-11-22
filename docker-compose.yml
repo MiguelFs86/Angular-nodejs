@@ -3,7 +3,7 @@ version: '3'
 services:
   traefik:
     image: traefik:latest
-    command: --api --docker --docker.domain=serantes.pro
+    # command: --api --docker --docker.domain=serantes.pro
     restart: always
     ports:
       - 80:80

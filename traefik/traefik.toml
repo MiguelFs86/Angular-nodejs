@@ -1,6 +1,9 @@
 debug = false
 
-[api]
+[web]
+address = ":8080"
+  [web.auth.basic]
+   users = ["admin:$apr1$jc0xKaqs$1haUJKtZKmuuBiOd.1R891"]
 
 defaultEntryPoints = ["http"]
 
