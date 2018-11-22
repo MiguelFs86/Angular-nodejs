@@ -7,8 +7,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 3000:3000
-      - 8080:8080
     networks:
       - web
     volumes:
@@ -32,7 +30,7 @@ services:
     links:
       - mongo
     labels:
-      - "traefik.frontend.rule=Host:backend.serantes.pro"
+      - "traefik.basic.frontend.rule=Host:backend.serantes.pro"
       - "traefik.basic.port=3000"
     volumes:
       - $PWD/ssl_certs/server:/user/src/app/server/config/ssl_certs
