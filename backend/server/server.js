@@ -8,10 +8,15 @@ var path = require('path');
 var https = require('https');
 var fs = require('fs');
 
-const options = {
-    key: fs.readFileSync(path.join(__dirname, '../server/config/ssl_certs/server.key')),
-    cert: fs.readFileSync(path.join(__dirname, '../server/config/ssl_certs/server.crt'))
-};
+var options = {};
+
+if (path.join(__dirname, '../server/config/ssl_certs/server.key') && path.join(__dirname, '../server/config/ssl_certs/server.crt')) {
+    options = {
+        key: fs.readFileSync(path.join(__dirname, '../server/config/ssl_certs/server.key')),
+        cert: fs.readFileSync(path.join(__dirname, '../server/config/ssl_certs/server.crt'))
+    };
+}
+
 
 var app = express();
 var bodyParser = require('body-parser');
