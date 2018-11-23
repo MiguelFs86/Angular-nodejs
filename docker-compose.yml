@@ -40,8 +40,8 @@ services:
       - "traefik.frontend.rule=Host:backend.serantes.pro"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.port=3000"
-    volumes:
-      - $PWD/ssl_certs/server:/user/src/app/server/config/ssl_certs
+    # volumes:
+    #   - $PWD/ssl_certs/server:/user/src/app/server/config/ssl_certs
     depends_on:
       - mongo
     networks:
@@ -64,7 +64,7 @@ services:
     networks:
       - web
     volumes:
-      - $PWD/ssl_certs/frontend-app:/etc/nginx/ssl
+      # - $PWD/ssl_certs/frontend-app:/etc/nginx/ssl
       - $PWD/nginx_conf:/etc/nginx/conf.d
     container_name: web
 networks:
